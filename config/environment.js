@@ -2,6 +2,9 @@
 
 module.exports = function(environment) {
   let ENV = {
+    i18n: {
+      defaultLocale: 'en-US'
+    },
     modulePrefix: 'translation-related-rehydration-bug',
     environment,
     rootURL: '/',
