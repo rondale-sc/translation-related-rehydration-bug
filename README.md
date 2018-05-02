@@ -1,56 +1,25 @@
 # translation-related-rehydration-bug
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This application is designed to reproduce a bug found in rehydration apps.
 
-## Prerequisites
+When using the `t` helper from Ember i18n whose key resolves to an empty string `""` glimmer will throw the following error:
 
-You will need the following things properly installed on your computer.
+```
+Uncaught TypeError: Cannot read property 'parentNode' of null
+    at RehydrateBuilder.remove (vendor.js:19840)
+    at RehydrateBuilder.__closeBlock (vendor.js:19807)
+    at RehydrateBuilder.popBlock (vendor.js:18263)
+    at VM.exit (vendor.js:19416)
+    at Object.evaluate (vendor.js:15864)
+    at AppendOpcodes.evaluate (vendor.js:14781)
+    at LowLevelVM.evaluateSyscall (vendor.js:18159)
+    at LowLevelVM.evaluateInner (vendor.js:18131)
+    at LowLevelVM.evaluateOuter (vendor.js:18123)
+    at VM.next (vendor.js:19512)
+```
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
+The error only happens with the `RehydrateBuilder` when `EXPERIMENTAL_RENDER_MODE_SERIALIZE` is set.  To reproduce the bug:
 
-## Installation
-
-* `git clone <repository-url>` this repository
-* `cd translation-related-rehydration-bug`
-* `npm install`
-
-## Running / Development
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Linting
-
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+- download this application
+- `yarn install`
+- `EXPERIMENTAL_RENDER_MODE_SERIALIZE=true ember s`
